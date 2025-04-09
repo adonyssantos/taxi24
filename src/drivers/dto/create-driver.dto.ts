@@ -1,4 +1,10 @@
-import { IsEmail, IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import {
+  IsEmail,
+  IsMobilePhone,
+  IsNotEmpty,
+  IsNumber,
+  IsString,
+} from 'class-validator';
 
 export class CreateDriverDto {
   @IsNotEmpty()
@@ -10,7 +16,7 @@ export class CreateDriverDto {
   email: string;
 
   @IsNotEmpty()
-  @IsString()
+  @IsMobilePhone()
   phone: string;
 
   @IsNotEmpty()
