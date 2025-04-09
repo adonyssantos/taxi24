@@ -1,4 +1,4 @@
-## Requirements 
+## Requirements
 
 The following requirements are mandatory in order to run the project locally:
 
@@ -25,27 +25,20 @@ Install the dependencies with NPM:
 npm install
 ```
 
-### 3. Add the `.env` file
+### 3. Add the `.env` files
 
-For development mode, you can use the `.env.example`. This is only for development propuse, but for production it's recommended to change it for a more secure values.
+For development mode, you can use the `.env.example` and `.env.e2e.example`. This is only for development propuse, but for production it's recommended to change it for a more secure values.
 
-You have to options:
+To create the needed env variables, execute the following commands:
 
-1. Execute the command `cp .env.example .env` to create the env file from the example file.
-2. Or create the file manually and copy the variables.
-
-```env
-# App environment mode
-NODE_ENV=development
-
-# PostgreSQL credentials
-POSTGRES_HOST=postgres
-POSTGRES_PORT=5432
-POSTGRES_USER=taxi24
-POSTGRES_PASSWORD=taxi24
-POSTGRES_DB=taxi24
-
+```sh
+cp .env.example .env
+cp .env.e2e.example .env.e2e
 ```
+
+This will create the `.env` and `.env.e2e` files with the default values. You can change them as needed.
+
+**Note:** The `.env` file is used for development and the `.env.e2e` file is used for end-to-end testing.
 
 ### 4. Run locally with Docker
 
@@ -68,3 +61,19 @@ Note: check that the ports `3000` and `5432` are not being used by other service
 ### 5. Access the application
 
 After running the application, you can access it at `http://localhost:3000` or to the PostgreSQL instance at `http://localhost:5432` using the credentials defined in the `.env` file.
+
+### 6. Run the tests
+
+This project have unit tests for the services and end-to-end tests for the application. To run the tests, you can use the following commands:
+
+**To run the unit tests:**
+
+```sh
+npm run test
+```
+
+**To run the end-to-end tests:**
+
+```sh
+npm run test:e2e
+```

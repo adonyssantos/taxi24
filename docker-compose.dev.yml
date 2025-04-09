@@ -25,6 +25,16 @@ services:
       - "5432:5432"
     volumes:
       - postgres-dev-data:/var/lib/postgresql/data
+  postgres-e2e:
+    image: postgres:15
+    container_name: taxi24-e2e-postgres
+    env_file:
+      - .env.e2e
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres-e2e-data:/var/lib/postgresql/data
 
 volumes:
   postgres-dev-data:
+  postgres-e2e-data:
