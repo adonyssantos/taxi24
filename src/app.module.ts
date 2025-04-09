@@ -5,6 +5,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { PassengersModule } from './passengers/passengers.module';
 import { ConfigModule } from '@nestjs/config';
 import { DriversModule } from './drivers/drivers.module';
+import { TripsModule } from './trips/trips.module';
+import { SharedModule } from './shared/shared.module';
 
 @Module({
   imports: [
@@ -25,6 +27,8 @@ import { DriversModule } from './drivers/drivers.module';
     }),
     PassengersModule,
     DriversModule,
+    TripsModule,
+    SharedModule,
   ],
   controllers: [AppController],
   providers: [AppService],
