@@ -4,6 +4,7 @@ import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { PassengersModule } from './passengers/passengers.module';
 import { ConfigModule } from '@nestjs/config';
+import { DriversModule } from './drivers/drivers.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { ConfigModule } from '@nestjs/config';
       autoLoadEntities: true,
     }),
     PassengersModule,
+    DriversModule,
   ],
   controllers: [AppController],
   providers: [AppService],

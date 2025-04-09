@@ -77,3 +77,5 @@ npm run test
 ```sh
 npm run test:e2e
 ```
+
+**Note:** To run the end-to-end tests, you need to have the application running in development mode. You will do this in the 4th step.
