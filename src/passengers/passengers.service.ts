@@ -15,7 +15,7 @@ export class PassengersService {
     const passenger = this.passengerRepo.create(dto);
     const saved = await this.passengerRepo.save(passenger);
     return {
-      message: 'Pasajero creado exitosamente',
+      message: 'Passenger created successfully',
       data: saved,
     };
   }

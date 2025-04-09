@@ -37,7 +37,7 @@ describe('DriversModule (e2e)', () => {
       })
       .expect(201);
 
-    expect(res.body.message).toBe('Conductor creado exitosamente');
+    expect(res.body.message).toBe('Driver created successfully');
     expect(res.body.data).toHaveProperty('id');
     createdId = res.body.data.id;
   });
@@ -65,7 +65,7 @@ describe('DriversModule (e2e)', () => {
       .send({ is_available: false })
       .expect(200);
 
-    expect(res.body.message).toBe('Conductor actualizado correctamente');
+    expect(res.body.message).toBe('Driver updated successfully');
     expect(res.body.data.is_available).toBe(false);
   });
 
@@ -75,6 +75,6 @@ describe('DriversModule (e2e)', () => {
       .delete(`/drivers/${createdId}`)
       .expect(200);
 
-    expect(res.body.message).toBe('Conductor eliminado correctamente');
+    expect(res.body.message).toBe('Driver removed successfully');
   });
 });

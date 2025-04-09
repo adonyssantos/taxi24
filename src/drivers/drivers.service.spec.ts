@@ -60,7 +60,7 @@ describe('DriversService', () => {
     });
     expect(mockRepo.save).toHaveBeenCalledWith(mockDriver);
     expect(result).toEqual({
-      message: 'Conductor creado exitosamente',
+      message: 'Driver created successfully',
       data: mockDriver,
     });
   });
@@ -93,7 +93,7 @@ describe('DriversService', () => {
 
     expect(mockRepo.save).toHaveBeenCalledWith(updatedDriver);
     expect(result).toEqual({
-      message: 'Conductor actualizado correctamente',
+      message: 'Driver updated successfully',
       data: updatedDriver,
     });
   });
@@ -103,7 +103,7 @@ describe('DriversService', () => {
 
     expect(mockRepo.remove).toHaveBeenCalledWith(mockDriver);
     expect(result).toEqual({
-      message: 'Conductor eliminado correctamente',
+      message: 'Driver removed successfully',
     });
   });
 });

@@ -56,7 +56,7 @@ describe('PassengersService', () => {
     expect(repository.create).toHaveBeenCalledWith(dto);
     expect(repository.save).toHaveBeenCalledWith(mockPassenger);
     expect(result).toEqual({
-      message: 'Pasajero creado exitosamente',
+      message: 'Passenger created successfully',
       data: mockPassenger,
     });
   });

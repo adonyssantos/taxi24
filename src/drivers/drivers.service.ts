@@ -19,7 +19,7 @@ export class DriversService {
     });
     const saved = await this.driverRepository.save(driver);
     return {
-      message: 'Conductor creado exitosamente',
+      message: 'Driver created successfully',
       data: saved,
     };
   }
@@ -31,7 +31,7 @@ export class DriversService {
   async findOne(id: string) {
     const driver = await this.driverRepository.findOneBy({ id });
     if (!driver) {
-      throw new NotFoundException('Conductor no encontrado');
+      throw new NotFoundException('Driver not found');
     }
     return driver;
   }
@@ -41,7 +41,7 @@ export class DriversService {
     const updated = Object.assign(driver, updateDriverDto);
     const saved = await this.driverRepository.save(updated);
     return {
-      message: 'Conductor actualizado correctamente',
+      message: 'Driver updated successfully',
       data: saved,
     };
   }
@@ -50,7 +50,7 @@ export class DriversService {
     const driver = await this.findOne(id);
     await this.driverRepository.remove(driver);
     return {
-      message: 'Conductor eliminado correctamente',
+      message: 'Driver removed successfully',
     };
   }
 }

@@ -40,7 +40,7 @@ describe('PassengersModule (e2e)', () => {
       })
       .expect(201);
 
-    expect(res.body.message).toBe('Pasajero creado exitosamente');
+    expect(res.body.message).toBe('Passenger created successfully');
     expect(res.body.data).toHaveProperty('id');
   });
 
