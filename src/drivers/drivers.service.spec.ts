@@ -9,7 +9,7 @@ describe('DriversService', () => {
 
   const mockDriver: Driver = {
     id: 'uuid-123',
-    name: 'Adonys Santos',
+    name: 'Adonys Driver',
     email: 'contact@adonys.me',
     phone: '+18090000000',
     current_lat: 19.3,

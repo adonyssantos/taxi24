@@ -17,9 +17,9 @@ describe('PassengersService', () => {
 
   const mockPassenger = {
     id: 'uuid-123',
-    name: 'Adonys Santos',
-    email: 'contact@adonys.me',
-    phone: '8090000000',
+    name: 'Adonys Passenger',
+    email: 'passenger@adonys.me',
+    phone: '+18090000000',
   };
 
   beforeEach(async () => {
@@ -43,9 +43,9 @@ describe('PassengersService', () => {
 
   it('should create a passenger and return success message', async () => {
     const dto: CreatePassengerDto = {
-      name: 'Adonys Santos',
-      email: 'contact@adonys.me',
-      phone: '8090000000',
+      name: 'Adonys Passenger',
+      email: 'passenger@adonys.me',
+      phone: '+18090000000',
     };
 
     repository.create.mockReturnValue(mockPassenger);

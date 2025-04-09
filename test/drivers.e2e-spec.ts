@@ -29,8 +29,8 @@ describe('DriversModule (e2e)', () => {
     const res = await request(app.getHttpServer())
       .post('/drivers')
       .send({
-        name: 'Juan Pérez',
-        email: 'driver@test.com',
+        name: 'Adonys Driver',
+        email: 'driver@adonys.me',
         phone: '+18090000000',
         current_lat: 19.4,
         current_lng: -70.5,
