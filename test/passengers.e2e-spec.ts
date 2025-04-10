@@ -37,7 +37,7 @@ describe('PassengersModule (e2e)', () => {
       .post('/passengers')
       .send({
         name: Mock.PASSENGER_NAME,
-        email: Mock.PASSENGER_EMAIL,
+        email: `${Date.now()}_${Mock.PASSENGER_EMAIL}`,
         phone: Mock.PASSENGER_PHONE,
       })
       .expect(201);

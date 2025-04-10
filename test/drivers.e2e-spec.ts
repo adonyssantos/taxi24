@@ -32,7 +32,7 @@ describe('DriversModule (e2e)', () => {
       .post('/drivers')
       .send({
         name: Mock.DRIVER_NAME,
-        email: Mock.DRIVER_EMAIL,
+        email: `${Date.now()}_${Mock.DRIVER_EMAIL}`,
         phone: Mock.DRIVER_PHONE,
         current_lat: Mock.DRIVER_CURRENT_LAT,
         current_lng: Mock.DRIVER_CURRENT_LNG,

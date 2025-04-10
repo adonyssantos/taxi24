@@ -1,9 +1,10 @@
-import { Injectable } from '@nestjs/common';
+import { ConflictException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Passenger } from './entities/passenger.entity';
 import { CreatePassengerDto } from './dto/create-passenger.dto';
 import { Messages } from 'src/shared/constants/messages.enum';
+import { Errors } from 'src/shared/constants/errors.enum';
 
 @Injectable()
 export class PassengersService {
@@ -13,6 +14,14 @@ export class PassengersService {
   ) {}
 
   async create(dto: CreatePassengerDto) {
+    const existing = await this.passengerRepo.findOneBy({
+      email: dto.email,
+    });
+
+    if (existing) {
+      throw new ConflictException(Errors.PASSENGER_ALREADY_EXISTS);
+    }
+
     const passenger = this.passengerRepo.create(dto);
     const saved = await this.passengerRepo.save(passenger);
     return {

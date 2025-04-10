@@ -2,7 +2,7 @@ import { Controller, Get, Post, Body, Param, Query } from '@nestjs/common';
 import { DriversService } from './drivers.service';
 import { CreateDriverDto } from './dto/create-driver.dto';
 import { GetDriverInRadiusDto } from './dto/get-driver-in-radius.dto';
-import { IdParamDto } from './dto/id-param.dto';
+import { DriverIdParamDto } from './dto/driver-id-param.dto';
 
 @Controller('drivers')
 export class DriversController {
@@ -33,7 +33,7 @@ export class DriversController {
   }
 
   @Get(':id')
-  findOne(@Param() params: IdParamDto) {
-    return this.driversService.findOne(params.id);
+  findOne(@Param() dto: DriverIdParamDto) {
+    return this.driversService.findOne(dto.id);
   }
 }
