@@ -3,8 +3,8 @@ import { PassengersService } from './passengers.service';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Passenger } from './entities/passenger.entity';
 import { CreatePassengerDto } from './dto/create-passenger.dto';
-import { Mock } from 'src/shared/constants/mock.map';
 import { Messages } from 'src/shared/constants/messages.enum';
+import { faker } from '@faker-js/faker/.';
 
 class MockPassengerRepository {
   create = jest.fn();
@@ -17,13 +17,12 @@ describe('PassengersService', () => {
   let service: PassengersService;
   let repository: MockPassengerRepository;
 
-  const mockPassenger = {
-    id: 'uuid-123',
-    name: Mock.PASSENGER_NAME,
-    email: Mock.PASSENGER_EMAIL,
-    phone: Mock.PASSENGER_PHONE,
-    created_at: new Date(),
-    updated_at: new Date(),
+  const mockPassenger: Partial<Passenger> = {
+    name: faker.person.fullName(),
+    email: faker.internet.email(),
+    phone: faker.phone.number({ style: 'international' }),
+    current_lat: faker.location.latitude({ min: 18.45, max: 18.5 }),
+    current_lng: faker.location.longitude({ min: -69.95, max: -69.85 }),
   };
 
   beforeEach(async () => {
@@ -47,9 +46,11 @@ describe('PassengersService', () => {
 
   it('should create a passenger and return success message', async () => {
     const dto: CreatePassengerDto = {
-      name: Mock.PASSENGER_NAME,
-      email: Mock.PASSENGER_EMAIL,
-      phone: Mock.PASSENGER_PHONE,
+      name: mockPassenger.name!,
+      email: mockPassenger.email!,
+      phone: mockPassenger.phone!,
+      current_lat: mockPassenger.current_lat!,
+      current_lng: mockPassenger.current_lng!,
     };
 
     repository.create.mockReturnValue(mockPassenger);

@@ -3,22 +3,20 @@ import { DriversService } from './drivers.service';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Driver } from './entities/driver.entity';
 import { NotFoundException } from '@nestjs/common';
-import { Mock } from 'src/shared/constants/mock.map';
 import { Messages } from 'src/shared/constants/messages.enum';
+import { faker } from '@faker-js/faker/.';
+import { CreateDriverDto } from './dto/create-driver.dto';
 
 describe('DriversService', () => {
   let service: DriversService;
 
-  const mockDriver: Driver = {
-    id: Mock.DRIVER_ID,
-    name: Mock.DRIVER_NAME,
-    email: Mock.DRIVER_EMAIL,
-    phone: Mock.DRIVER_PHONE,
-    current_lat: 19.3,
-    current_lng: -70.6,
+  const mockDriver: Partial<Driver> = {
+    name: faker.person.fullName(),
+    email: faker.internet.email(),
+    phone: faker.phone.number({ style: 'international' }),
+    current_lat: faker.location.latitude({ min: 18.45, max: 18.5 }),
+    current_lng: faker.location.longitude({ min: -69.95, max: -69.85 }),
     is_available: true,
-    created_at: new Date(),
-    updated_at: new Date(),
   };
 
   const mockRepo = {
@@ -48,12 +46,12 @@ describe('DriversService', () => {
   });
 
   it('should create a driver', async () => {
-    const dto = {
-      name: mockDriver.name,
-      email: mockDriver.email,
-      phone: mockDriver.phone,
-      current_lat: mockDriver.current_lat,
-      current_lng: mockDriver.current_lng,
+    const dto: CreateDriverDto = {
+      name: mockDriver.name!,
+      email: mockDriver.email!,
+      phone: mockDriver.phone!,
+      current_lat: mockDriver.current_lat!,
+      current_lng: mockDriver.current_lng!,
     };
 
     mockRepo.findOneBy.mockResolvedValueOnce(null);
@@ -77,7 +75,7 @@ describe('DriversService', () => {
   });
 
   it('should return one driver', async () => {
-    const result = await service.findOne(mockDriver.id);
+    const result = await service.findOne(mockDriver.id!);
     expect(mockRepo.findOneBy).toHaveBeenCalledWith({ id: mockDriver.id });
     expect(result).toEqual(mockDriver);
   });

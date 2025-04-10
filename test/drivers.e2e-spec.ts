@@ -4,12 +4,22 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication, ValidationPipe } from '@nestjs/common';
 import * as request from 'supertest';
 import { AppModule } from '../src/app.module';
-import { Mock } from 'src/shared/constants/mock.map';
 import { Messages } from 'src/shared/constants/messages.enum';
+import { Driver } from 'src/drivers/entities/driver.entity';
+import { faker } from '@faker-js/faker/.';
 
 describe('DriversModule (e2e)', () => {
   let app: INestApplication;
   let createdId: string;
+
+  const mockDriver: Partial<Driver> = {
+    name: faker.person.fullName(),
+    email: faker.internet.email(),
+    phone: faker.phone.number({ style: 'international' }),
+    current_lat: faker.location.latitude({ min: 18.45, max: 18.5 }),
+    current_lng: faker.location.longitude({ min: -69.95, max: -69.85 }),
+    is_available: true,
+  };
 
   beforeAll(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
@@ -30,13 +40,7 @@ describe('DriversModule (e2e)', () => {
   it('should create a driver', async () => {
     const res = await request(app.getHttpServer())
       .post('/drivers')
-      .send({
-        name: Mock.DRIVER_NAME,
-        email: `${Date.now()}_${Mock.DRIVER_EMAIL}`,
-        phone: Mock.DRIVER_PHONE,
-        current_lat: Mock.DRIVER_CURRENT_LAT,
-        current_lng: Mock.DRIVER_CURRENT_LNG,
-      })
+      .send(mockDriver)
       .expect(201);
 
     expect(res.body.message).toBe(Messages.DRIVER_CREATED_SUCCESSFULLY);

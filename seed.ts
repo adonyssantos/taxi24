@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable no-constant-condition */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
@@ -35,8 +34,7 @@ async function bootstrap() {
       id: faker.string.uuid(),
       name: faker.person.fullName(),
       email: faker.internet.email(),
-      // @ts-expect-error
-      phone: faker.phone.number('+1##########'),
+      phone: faker.phone.number({ style: 'international' }),
       current_lat: faker.location.latitude({ min: 18.45, max: 18.5 }),
       current_lng: faker.location.longitude({ min: -69.95, max: -69.85 }),
       is_available: Math.random() > 0.5,
@@ -49,8 +47,7 @@ async function bootstrap() {
       id: faker.string.uuid(),
       name: faker.person.fullName(),
       email: faker.internet.email(),
-      // @ts-expect-error
-      phone: faker.phone.number('+1##########'),
+      phone: faker.phone.number({ style: 'international' }),
       current_lat: faker.location.latitude({ min: 18.45, max: 18.5 }),
       current_lng: faker.location.longitude({ min: -69.95, max: -69.85 }),
       created_at: new Date(),
@@ -91,7 +88,7 @@ async function bootstrap() {
   }
 
   await app.close();
-  console.log('Seed completed!');
+  console.info('Seed completed!');
 }
 
 bootstrap();
