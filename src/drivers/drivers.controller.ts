@@ -1,6 +1,8 @@
-import { Controller, Get, Post, Body, Param } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Query } from '@nestjs/common';
 import { DriversService } from './drivers.service';
 import { CreateDriverDto } from './dto/create-driver.dto';
+import { GetDriverInRadiusDto } from './dto/get-driver-in-radius.dto';
+import { IdParamDto } from './dto/id-param.dto';
 
 @Controller('drivers')
 export class DriversController {
@@ -16,8 +18,22 @@ export class DriversController {
     return this.driversService.findAll();
   }
 
+  @Get('available')
+  findAvailable() {
+    return this.driversService.findAvailable();
+  }
+
+  @Get('in-radius')
+  findInRadius(@Query() dto: GetDriverInRadiusDto) {
+    return this.driversService.findInRadius(
+      dto.current_lat,
+      dto.current_lng,
+      dto.radius,
+    );
+  }
+
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.driversService.findOne(id);
+  findOne(@Param() params: IdParamDto) {
+    return this.driversService.findOne(params.id);
   }
 }

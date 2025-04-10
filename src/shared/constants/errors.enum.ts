@@ -6,7 +6,7 @@ export enum Errors {
 
   // Driver
   DRIVER_NOT_FOUND = 'Driver not found',
-  DRIVER_ALREADY_EXISTS = 'Driver already exists',
+  DRIVER_ALREADY_EXISTS = 'You cannot create a driver with the same email',
   DRIVER_INVALID_ID = 'Invalid driver ID',
 
   // Trip

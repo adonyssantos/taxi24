@@ -34,8 +34,8 @@ describe('DriversModule (e2e)', () => {
         name: Mock.DRIVER_NAME,
         email: Mock.DRIVER_EMAIL,
         phone: Mock.DRIVER_PHONE,
-        current_lat: 19.4,
-        current_lng: -70.5,
+        current_lat: Mock.DRIVER_CURRENT_LAT,
+        current_lng: Mock.DRIVER_CURRENT_LNG,
       })
       .expect(201);
 

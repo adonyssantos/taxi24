@@ -10,7 +10,7 @@ describe('DriversService', () => {
   let service: DriversService;
 
   const mockDriver: Driver = {
-    id: 'uuid-123',
+    id: Mock.DRIVER_ID,
     name: Mock.DRIVER_NAME,
     email: Mock.DRIVER_EMAIL,
     phone: Mock.DRIVER_PHONE,
@@ -54,6 +54,7 @@ describe('DriversService', () => {
       current_lng: mockDriver.current_lng,
     };
 
+    mockRepo.findOneBy.mockResolvedValueOnce(null);
     const result = await service.create(dto);
 
     expect(mockRepo.create).toHaveBeenCalledWith({
