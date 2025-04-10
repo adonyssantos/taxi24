@@ -22,6 +22,8 @@ describe('PassengersService', () => {
     name: Mock.PASSENGER_NAME,
     email: Mock.PASSENGER_EMAIL,
     phone: Mock.PASSENGER_PHONE,
+    created_at: new Date(),
+    updated_at: new Date(),
   };
 
   beforeEach(async () => {

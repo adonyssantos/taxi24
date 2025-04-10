@@ -40,6 +40,8 @@ async function bootstrap() {
       current_lat: faker.location.latitude({ min: 18.45, max: 18.5 }),
       current_lng: faker.location.longitude({ min: -69.95, max: -69.85 }),
       is_available: Math.random() > 0.5,
+      created_at: new Date(),
+      updated_at: new Date(),
     });
     drivers.push(await driverRepo.save(driver));
 
@@ -49,6 +51,8 @@ async function bootstrap() {
       email: faker.internet.email(),
       // @ts-expect-error
       phone: faker.phone.number('+1##########'),
+      created_at: new Date(),
+      updated_at: new Date(),
     });
     passengers.push(await passengerRepo.save(passenger));
   }

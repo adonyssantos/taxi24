@@ -17,6 +17,8 @@ describe('DriversService', () => {
     current_lat: 19.3,
     current_lng: -70.6,
     is_available: true,
+    created_at: new Date(),
+    updated_at: new Date(),
   };
 
   const mockRepo = {
