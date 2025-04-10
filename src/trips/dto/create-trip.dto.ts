@@ -1,5 +1,4 @@
-import { IsUUID, IsNumber, IsEnum } from 'class-validator';
-import { TripStatus } from '../../shared/constants/trip-status.enum';
+import { IsUUID, IsNumber } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { Mock } from 'src/shared/constants/mock.map';
 
@@ -19,20 +18,6 @@ export class CreateTripDto {
   driver_id: string;
 
   @ApiProperty({
-    example: Mock.PASSENGER_CURRENT_LAT,
-    required: true,
-  })
-  @IsNumber()
-  start_lat: number;
-
-  @ApiProperty({
-    example: Mock.PASSENGER_CURRENT_LNG,
-    required: true,
-  })
-  @IsNumber()
-  start_lng: number;
-
-  @ApiProperty({
     example: Mock.PASSENGER_DESTINATION_LAT,
     required: true,
   })
@@ -45,11 +30,4 @@ export class CreateTripDto {
   })
   @IsNumber()
   end_lng: number;
-
-  @ApiProperty({
-    example: Mock.TRIP_STATUS,
-    required: true,
-  })
-  @IsEnum(TripStatus)
-  status: TripStatus;
 }

@@ -20,6 +20,12 @@ export class Passenger {
   @Column()
   phone: string;
 
+  @Column('float')
+  current_lat: number;
+
+  @Column('float')
+  current_lng: number;
+
   @CreateDateColumn({ name: 'created_at' })
   created_at: Date;
 

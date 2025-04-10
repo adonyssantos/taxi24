@@ -51,6 +51,8 @@ async function bootstrap() {
       email: faker.internet.email(),
       // @ts-expect-error
       phone: faker.phone.number('+1##########'),
+      current_lat: faker.location.latitude({ min: 18.45, max: 18.5 }),
+      current_lng: faker.location.longitude({ min: -69.95, max: -69.85 }),
       created_at: new Date(),
       updated_at: new Date(),
     });

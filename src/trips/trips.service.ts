@@ -53,6 +53,8 @@ export class TripsService {
       passenger,
       driver,
       status: TripStatus.ACTIVE,
+      start_lat: passenger.current_lat,
+      start_lng: passenger.current_lng,
     });
 
     return this.tripRepo.save(trip);
