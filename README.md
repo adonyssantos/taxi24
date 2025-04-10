@@ -1,3 +1,12 @@
+# Taxi24
+
+## Main technologies
+
+- Nest.js
+- TypeScript
+- TypeORM
+- PostgreSQL (running on Docker)
+
 ## Requirements
 
 The following requirements are mandatory in order to run the project locally:
@@ -60,7 +69,9 @@ Note: check that the ports `3000` and `5432` are not being used by other service
 
 ### 5. Access the application
 
-After running the application, you can access it at `http://localhost:3000` or to the PostgreSQL instance at `http://localhost:5432` using the credentials defined in the `.env` file.
+After running the application, you can access it at `http://localhost:3000`.
+
+This project has swagger for API documentation. You can access it at `http://localhost:3000/api/docs`.
 
 ### 6. Run the tests
 
