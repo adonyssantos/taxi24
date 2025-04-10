@@ -1,11 +1,12 @@
 export enum Messages {
   // Passanger
   PASSENGER_CREATED_SUCCESSFULLY = 'Passenger created successfully',
-  PASSENGER_UPDATED_SUCCESSFULLY = 'Passenger updated successfully',
-  PASSENGER_DELETED_SUCCESSFULLY = 'Passenger deleted successfully',
 
   // Driver
   DRIVER_CREATED_SUCCESSFULLY = 'Driver created successfully',
-  DRIVER_UPDATED_SUCCESSFULLY = 'Driver updated successfully',
-  DRIVER_DELETED_SUCCESSFULLY = 'Driver deleted successfully',
+
+  // Trips
+  TRIP_CREATED_SUCCESSFULLY = 'Trip created successfully',
+  TRIP_FOUND_SUCCESS = 'Trip found successfully',
+  TRIP_COMPLETED_SUCCESS = 'Trip completed successfully',
 }

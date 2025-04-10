@@ -10,6 +10,7 @@ import { CreateTripDto } from './dto/create-trip.dto';
 import { Passenger } from '../passengers/entities/passenger.entity';
 import { Driver } from '../drivers/entities/driver.entity';
 import { TripStatus } from 'src/shared/constants/trip-status.enum';
+import { Errors } from 'src/shared/constants/errors.enum';
 
 @Injectable()
 export class TripsService {
@@ -28,20 +29,20 @@ export class TripsService {
     const passenger = await this.passengerRepo.findOneBy({
       id: dto.passenger_id,
     });
-    if (!passenger) throw new NotFoundException('Passenger not found');
+    if (!passenger) throw new NotFoundException(Errors.PASSENGER_NOT_FOUND);
 
     const driver = await this.driverRepo.findOneBy({ id: dto.driver_id });
-    if (!driver) throw new NotFoundException('Driver not found');
+    if (!driver) throw new NotFoundException(Errors.DRIVER_NOT_FOUND);
 
     if (!driver.is_available) {
-      throw new BadRequestException('Driver is not available');
+      throw new BadRequestException(Errors.DRIVER_NOT_AVAILABLE);
     }
 
     const activeTrip = await this.tripRepo.findOne({
       where: { driver: { id: dto.driver_id }, status: TripStatus.ACTIVE },
     });
     if (activeTrip) {
-      throw new BadRequestException('Driver already has an active trip');
+      throw new BadRequestException(Errors.DRIVER_ALREADY_HAS_ACTIVE_TRIP);
     }
 
     driver.is_available = false;
@@ -68,9 +69,9 @@ export class TripsService {
     return this.tripRepo.find({ where: { status } });
   }
 
-  async complete(id: string): Promise<{ message: string; data: Trip }> {
+  async complete(id: string): Promise<Trip> {
     const trip = await this.tripRepo.findOne({ where: { id } });
-    if (!trip) throw new NotFoundException('Trip not found');
+    if (!trip) throw new NotFoundException(Errors.TRIP_NOT_FOUND);
 
     trip.status = TripStatus.COMPLETED;
     trip.completed_at = new Date();
@@ -78,11 +79,6 @@ export class TripsService {
     trip.driver.is_available = true;
     await this.driverRepo.save(trip.driver);
 
-    const savedTrip = await this.tripRepo.save(trip);
-
-    return {
-      message: 'Trip completed successfully',
-      data: savedTrip,
-    };
+    return this.tripRepo.save(trip);
   }
 }
