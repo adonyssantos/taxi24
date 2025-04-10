@@ -75,10 +75,23 @@ export class TripsService {
     const trip = await this.tripRepo.findOne({ where: { id } });
     if (!trip) throw new NotFoundException(Errors.TRIP_NOT_FOUND);
 
+    if (trip.status === TripStatus.COMPLETED) {
+      throw new BadRequestException(Errors.TRIP_ALREADY_COMPLETED);
+    }
+
+    // this will change the current position of the driver and passenger to the end position
+    trip.driver.current_lat = trip.end_lat;
+    trip.driver.current_lng = trip.end_lng;
+    trip.passenger.current_lat = trip.end_lat;
+    trip.passenger.current_lng = trip.end_lng;
+
+    // change state to completed
     trip.status = TripStatus.COMPLETED;
     trip.completed_at = new Date();
 
+    // set the driver and passenger to available again
     trip.driver.is_available = true;
+
     await this.driverRepo.save(trip.driver);
 
     return this.tripRepo.save(trip);

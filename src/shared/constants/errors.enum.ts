@@ -16,4 +16,5 @@ export enum Errors {
   TRIP_NOT_FOUND = 'Trip not found',
   TRIP_ALREADY_EXISTS = 'Trip already exists',
   TRIP_INVALID_ID = 'Invalid trip ID',
+  TRIP_ALREADY_COMPLETED = 'Trip already completed',
 }
