@@ -3,6 +3,7 @@ export enum Errors {
   PASSENGER_NOT_FOUND = 'Passenger not found',
   PASSENGER_ALREADY_EXISTS = 'You cannot create a passenger with the same email',
   PASSENGER_INVALID_ID = 'Invalid passenger ID',
+  PASSENGER_ALREADY_IN_TRIP = 'Passenger already has an active trip',
 
   // Driver
   DRIVER_NOT_FOUND = 'Driver not found',

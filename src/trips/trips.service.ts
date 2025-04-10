@@ -42,7 +42,7 @@ export class TripsService {
       where: { driver: { id: dto.driver_id }, status: TripStatus.ACTIVE },
     });
     if (activeTrip) {
-      throw new BadRequestException(Errors.DRIVER_ALREADY_HAS_ACTIVE_TRIP);
+      throw new BadRequestException(Errors.PASSENGER_ALREADY_IN_TRIP);
     }
 
     driver.is_available = false;
