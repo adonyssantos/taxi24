@@ -4,6 +4,8 @@ import { Repository } from 'typeorm';
 import { Driver } from './entities/driver.entity';
 import { CreateDriverDto } from './dto/create-driver.dto';
 import { UpdateDriverDto } from './dto/update-driver.dto';
+import { Errors } from 'src/shared/constants/errors.enum';
+import { Messages } from 'src/shared/constants/messages.enum';
 
 @Injectable()
 export class DriversService {
@@ -19,7 +21,7 @@ export class DriversService {
     });
     const saved = await this.driverRepository.save(driver);
     return {
-      message: 'Driver created successfully',
+      message: Messages.DRIVER_CREATED_SUCCESSFULLY,
       data: saved,
     };
   }
@@ -31,7 +33,7 @@ export class DriversService {
   async findOne(id: string) {
     const driver = await this.driverRepository.findOneBy({ id });
     if (!driver) {
-      throw new NotFoundException('Driver not found');
+      throw new NotFoundException(Errors.DRIVER_NOT_FOUND);
     }
     return driver;
   }
@@ -41,7 +43,7 @@ export class DriversService {
     const updated = Object.assign(driver, updateDriverDto);
     const saved = await this.driverRepository.save(updated);
     return {
-      message: 'Driver updated successfully',
+      message: Messages.DRIVER_UPDATED_SUCCESSFULLY,
       data: saved,
     };
   }
@@ -50,7 +52,7 @@ export class DriversService {
     const driver = await this.findOne(id);
     await this.driverRepository.remove(driver);
     return {
-      message: 'Driver removed successfully',
+      message: Messages.DRIVER_DELETED_SUCCESSFULLY,
     };
   }
 }

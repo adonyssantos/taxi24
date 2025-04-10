@@ -11,7 +11,11 @@ export const DatabaseProviderModule = TypeOrmModule.forRootAsync({
     username: config.get('POSTGRES_USER'),
     password: config.get('POSTGRES_PASSWORD'),
     database: config.get('POSTGRES_DB'),
-    entities: [__dirname + '/../../**/*.entity{.ts,.js}'],
+    entities: [
+      process.env.NODE_ENV === 'production'
+        ? __dirname + '/**/*.entity.js'
+        : __dirname + '/**/*.entity.ts',
+    ],
     synchronize: config.get('NODE_ENV') !== 'production',
     autoLoadEntities: true,
   }),

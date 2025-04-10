@@ -4,6 +4,8 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication, ValidationPipe } from '@nestjs/common';
 import * as request from 'supertest';
 import { AppModule } from '../src/app.module';
+import { Mock } from 'src/shared/constants/mock.map';
+import { Messages } from 'src/shared/constants/messages.enum';
 
 describe('PassengersModule (e2e)', () => {
   let app: INestApplication;
@@ -34,13 +36,13 @@ describe('PassengersModule (e2e)', () => {
     const res = await request(app.getHttpServer())
       .post('/passengers')
       .send({
-        name: 'Adonys Passenger',
-        email: 'passenger@adonys.me',
-        phone: '+18090000000',
+        name: Mock.PASSENGER_NAME,
+        email: Mock.PASSENGER_EMAIL,
+        phone: Mock.PASSENGER_PHONE,
       })
       .expect(201);
 
-    expect(res.body.message).toBe('Passenger created successfully');
+    expect(res.body.message).toBe(Messages.PASSENGER_CREATED_SUCCESSFULLY);
     expect(res.body.data).toHaveProperty('id');
   });
 

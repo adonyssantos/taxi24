@@ -4,6 +4,8 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication, ValidationPipe } from '@nestjs/common';
 import * as request from 'supertest';
 import { AppModule } from '../src/app.module';
+import { Mock } from 'src/shared/constants/mock.map';
+import { Messages } from 'src/shared/constants/messages.enum';
 
 describe('DriversModule (e2e)', () => {
   let app: INestApplication;
@@ -29,15 +31,15 @@ describe('DriversModule (e2e)', () => {
     const res = await request(app.getHttpServer())
       .post('/drivers')
       .send({
-        name: 'Adonys Driver',
-        email: 'driver@adonys.me',
-        phone: '+18090000000',
+        name: Mock.DRIVER_NAME,
+        email: Mock.DRIVER_EMAIL,
+        phone: Mock.DRIVER_PHONE,
         current_lat: 19.4,
         current_lng: -70.5,
       })
       .expect(201);
 
-    expect(res.body.message).toBe('Driver created successfully');
+    expect(res.body.message).toBe(Messages.DRIVER_CREATED_SUCCESSFULLY);
     expect(res.body.data).toHaveProperty('id');
     createdId = res.body.data.id;
   });
@@ -65,7 +67,7 @@ describe('DriversModule (e2e)', () => {
       .send({ is_available: false })
       .expect(200);
 
-    expect(res.body.message).toBe('Driver updated successfully');
+    expect(res.body.message).toBe(Messages.DRIVER_UPDATED_SUCCESSFULLY);
     expect(res.body.data.is_available).toBe(false);
   });
 
@@ -75,6 +77,6 @@ describe('DriversModule (e2e)', () => {
       .delete(`/drivers/${createdId}`)
       .expect(200);
 
-    expect(res.body.message).toBe('Driver removed successfully');
+    expect(res.body.message).toBe(Messages.DRIVER_DELETED_SUCCESSFULLY);
   });
 });

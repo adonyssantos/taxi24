@@ -3,15 +3,17 @@ import { DriversService } from './drivers.service';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Driver } from './entities/driver.entity';
 import { NotFoundException } from '@nestjs/common';
+import { Mock } from 'src/shared/constants/mock.map';
+import { Messages } from 'src/shared/constants/messages.enum';
 
 describe('DriversService', () => {
   let service: DriversService;
 
   const mockDriver: Driver = {
     id: 'uuid-123',
-    name: 'Adonys Driver',
-    email: 'contact@adonys.me',
-    phone: '+18090000000',
+    name: Mock.DRIVER_NAME,
+    email: Mock.DRIVER_EMAIL,
+    phone: Mock.DRIVER_PHONE,
     current_lat: 19.3,
     current_lng: -70.6,
     is_available: true,
@@ -60,7 +62,7 @@ describe('DriversService', () => {
     });
     expect(mockRepo.save).toHaveBeenCalledWith(mockDriver);
     expect(result).toEqual({
-      message: 'Driver created successfully',
+      message: Messages.DRIVER_CREATED_SUCCESSFULLY,
       data: mockDriver,
     });
   });
@@ -93,7 +95,7 @@ describe('DriversService', () => {
 
     expect(mockRepo.save).toHaveBeenCalledWith(updatedDriver);
     expect(result).toEqual({
-      message: 'Driver updated successfully',
+      message: Messages.DRIVER_UPDATED_SUCCESSFULLY,
       data: updatedDriver,
     });
   });
@@ -103,7 +105,7 @@ describe('DriversService', () => {
 
     expect(mockRepo.remove).toHaveBeenCalledWith(mockDriver);
     expect(result).toEqual({
-      message: 'Driver removed successfully',
+      message: Messages.DRIVER_DELETED_SUCCESSFULLY,
     });
   });
 });

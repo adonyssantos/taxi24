@@ -9,7 +9,7 @@ import {
 } from 'typeorm';
 import { Passenger } from '../../passengers/entities/passenger.entity';
 import { Driver } from '../../drivers/entities/driver.entity';
-import { TripStatus } from '../../../shared/constants/trip-status.enum';
+import { TripStatus } from 'src/shared/constants/trip-status.enum';
 
 @Entity()
 export class Trip {

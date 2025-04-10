@@ -11,7 +11,7 @@ import { TripsService } from './trips.service';
 import { CreateTripDto } from './dto/create-trip.dto';
 import { Trip } from './entities/trip.entity';
 import { GetTripsDto } from './dto/get-trips.dto';
-import { TripStatus } from '../../shared/constants/trip-status.enum';
+import { TripStatus } from 'src/shared/constants/trip-status.enum';
 
 @Controller('trips')
 export class TripsController {

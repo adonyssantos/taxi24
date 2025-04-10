@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Passenger } from './entities/passenger.entity';
 import { CreatePassengerDto } from './dto/create-passenger.dto';
+import { Messages } from 'src/shared/constants/messages.enum';
 
 @Injectable()
 export class PassengersService {
@@ -15,7 +16,7 @@ export class PassengersService {
     const passenger = this.passengerRepo.create(dto);
     const saved = await this.passengerRepo.save(passenger);
     return {
-      message: 'Passenger created successfully',
+      message: Messages.PASSENGER_CREATED_SUCCESSFULLY,
       data: saved,
     };
   }

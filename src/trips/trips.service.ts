@@ -9,7 +9,7 @@ import { Trip } from './entities/trip.entity';
 import { CreateTripDto } from './dto/create-trip.dto';
 import { Passenger } from '../passengers/entities/passenger.entity';
 import { Driver } from '../drivers/entities/driver.entity';
-import { TripStatus } from '../../shared/constants/trip-status.enum';
+import { TripStatus } from 'src/shared/constants/trip-status.enum';
 
 @Injectable()
 export class TripsService {
