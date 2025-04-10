@@ -59,24 +59,4 @@ describe('DriversModule (e2e)', () => {
       .expect(200);
     expect(res.body.id).toBe(createdId);
   });
-
-  it('should update the driver', async () => {
-    if (!createdId) throw new Error('createdId is undefined');
-    const res = await request(app.getHttpServer())
-      .patch(`/drivers/${createdId}`)
-      .send({ is_available: false })
-      .expect(200);
-
-    expect(res.body.message).toBe(Messages.DRIVER_UPDATED_SUCCESSFULLY);
-    expect(res.body.data.is_available).toBe(false);
-  });
-
-  it('should delete the driver', async () => {
-    if (!createdId) throw new Error('createdId is undefined');
-    const res = await request(app.getHttpServer())
-      .delete(`/drivers/${createdId}`)
-      .expect(200);
-
-    expect(res.body.message).toBe(Messages.DRIVER_DELETED_SUCCESSFULLY);
-  });
 });

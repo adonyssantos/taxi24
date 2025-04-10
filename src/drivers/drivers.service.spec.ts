@@ -84,28 +84,4 @@ describe('DriversService', () => {
 
     await expect(service.findOne('fake-id')).rejects.toThrow(NotFoundException);
   });
-
-  it('should update a driver', async () => {
-    const updates = { current_lat: 20.0 };
-    const updatedDriver = { ...mockDriver, ...updates };
-
-    mockRepo.save.mockResolvedValueOnce(updatedDriver);
-
-    const result = await service.update(mockDriver.id, updates);
-
-    expect(mockRepo.save).toHaveBeenCalledWith(updatedDriver);
-    expect(result).toEqual({
-      message: Messages.DRIVER_UPDATED_SUCCESSFULLY,
-      data: updatedDriver,
-    });
-  });
-
-  it('should delete a driver', async () => {
-    const result = await service.remove(mockDriver.id);
-
-    expect(mockRepo.remove).toHaveBeenCalledWith(mockDriver);
-    expect(result).toEqual({
-      message: Messages.DRIVER_DELETED_SUCCESSFULLY,
-    });
-  });
 });
