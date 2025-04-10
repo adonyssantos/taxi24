@@ -18,7 +18,7 @@ services:
         condition: service_healthy
       postgres-e2e:
         condition: service_healthy
-    command: npm run start:dev
+    command: sh -c "npm run seed && npm run start:dev"
   postgres:
     image: postgres:15
     container_name: taxi24-dev-postgres
