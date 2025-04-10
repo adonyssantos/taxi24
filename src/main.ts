@@ -17,9 +17,6 @@ async function bootstrap() {
     .setTitle('Taxi24 API')
     .setDescription('API documentation for the Taxi24 service')
     .setVersion('1.0')
-    .addTag('drivers')
-    .addTag('passengers')
-    .addTag('trips')
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
