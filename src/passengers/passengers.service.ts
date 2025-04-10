@@ -1,9 +1,12 @@
-import { ConflictException, Injectable } from '@nestjs/common';
+import {
+  ConflictException,
+  NotFoundException,
+  Injectable,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Passenger } from './entities/passenger.entity';
 import { CreatePassengerDto } from './dto/create-passenger.dto';
-import { Messages } from 'src/shared/constants/messages.enum';
 import { Errors } from 'src/shared/constants/errors.enum';
 
 @Injectable()
@@ -23,18 +26,19 @@ export class PassengersService {
     }
 
     const passenger = this.passengerRepo.create(dto);
-    const saved = await this.passengerRepo.save(passenger);
-    return {
-      message: Messages.PASSENGER_CREATED_SUCCESSFULLY,
-      data: saved,
-    };
+    return this.passengerRepo.save(passenger);
   }
 
   findAll() {
     return this.passengerRepo.find();
   }
 
-  findOne(id: string) {
-    return this.passengerRepo.findOneBy({ id });
+  async findOne(id: string) {
+    const passenger = await this.passengerRepo.findOneBy({ id });
+    if (!passenger) {
+      throw new NotFoundException(Errors.PASSENGER_NOT_FOUND);
+    }
+
+    return passenger;
   }
 }

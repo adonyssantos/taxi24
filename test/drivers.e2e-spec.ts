@@ -43,16 +43,26 @@ describe('DriversModule (e2e)', () => {
       .send(mockDriver)
       .expect(201);
 
-    expect(res.body.message).toBe(Messages.DRIVER_CREATED_SUCCESSFULLY);
+    expect(res.body).toHaveProperty(
+      'message',
+      Messages.DRIVER_CREATED_SUCCESSFULLY,
+    );
+    expect(res.body).toHaveProperty('data');
     expect(res.body.data).toHaveProperty('id');
     createdId = res.body.data.id;
   });
 
   it('should return all drivers', async () => {
     const res = await request(app.getHttpServer()).get('/drivers').expect(200);
-    expect(Array.isArray(res.body)).toBe(true);
-    if (res.body.length > 0) {
-      expect(res.body[0]).toHaveProperty('name');
+
+    expect(res.body).toHaveProperty(
+      'message',
+      Messages.DRIVERS_RETRIEVED_SUCCESSFULLY,
+    );
+    expect(res.body).toHaveProperty('data');
+    expect(Array.isArray(res.body.data)).toBe(true);
+    if (res.body.data.length > 0) {
+      expect(res.body.data[0]).toHaveProperty('name');
     }
   });
 
@@ -61,6 +71,9 @@ describe('DriversModule (e2e)', () => {
     const res = await request(app.getHttpServer())
       .get(`/drivers/${createdId}`)
       .expect(200);
-    expect(res.body.id).toBe(createdId);
+
+    expect(res.body).toHaveProperty('message', Messages.DRIVER_FOUND_SUCCESS);
+    expect(res.body).toHaveProperty('data');
+    expect(res.body.data.id).toBe(createdId);
   });
 });

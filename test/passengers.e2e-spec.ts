@@ -3,9 +3,9 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication, ValidationPipe } from '@nestjs/common';
 import * as request from 'supertest';
 import { AppModule } from '../src/app.module';
-import { Messages } from 'src/shared/constants/messages.enum';
 import { faker } from '@faker-js/faker/.';
 import { Passenger } from 'src/passengers/entities/passenger.entity';
+import { Messages } from 'src/shared/constants/messages.enum';
 
 describe('PassengersModule (e2e)', () => {
   let app: INestApplication;
@@ -46,7 +46,11 @@ describe('PassengersModule (e2e)', () => {
       .send(mockPassenger);
 
     expect(res.status).toBe(201);
-    expect(res.body.message).toBe(Messages.PASSENGER_CREATED_SUCCESSFULLY);
+    expect(res.body).toHaveProperty(
+      'message',
+      Messages.PASSENGER_CREATED_SUCCESSFULLY,
+    );
+    expect(res.body).toHaveProperty('data');
     expect(res.body.data).toHaveProperty('id');
   });
 
@@ -54,7 +58,14 @@ describe('PassengersModule (e2e)', () => {
     const res = await request(app.getHttpServer()).get('/passengers');
 
     expect(res.status).toBe(200);
-    expect(Array.isArray(res.body)).toBe(true);
-    expect(res.body[0]).toHaveProperty('name');
+    expect(res.body).toHaveProperty(
+      'message',
+      Messages.PASSENGERS_RETRIEVED_SUCCESSFULLY,
+    );
+    expect(res.body).toHaveProperty('data');
+    expect(Array.isArray(res.body.data)).toBe(true);
+    if (res.body.data.length > 0) {
+      expect(res.body.data[0]).toHaveProperty('name');
+    }
   });
 });

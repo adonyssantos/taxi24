@@ -3,7 +3,6 @@ import { PassengersService } from './passengers.service';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Passenger } from './entities/passenger.entity';
 import { CreatePassengerDto } from './dto/create-passenger.dto';
-import { Messages } from 'src/shared/constants/messages.enum';
 import { faker } from '@faker-js/faker/.';
 
 class MockPassengerRepository {
@@ -60,10 +59,7 @@ describe('PassengersService', () => {
 
     expect(repository.create).toHaveBeenCalledWith(dto);
     expect(repository.save).toHaveBeenCalledWith(mockPassenger);
-    expect(result).toEqual({
-      message: Messages.PASSENGER_CREATED_SUCCESSFULLY,
-      data: mockPassenger,
-    });
+    expect(result).toEqual(mockPassenger);
   });
 
   it('should return all passengers', async () => {

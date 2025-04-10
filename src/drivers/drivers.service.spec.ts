@@ -3,7 +3,6 @@ import { DriversService } from './drivers.service';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Driver } from './entities/driver.entity';
 import { NotFoundException } from '@nestjs/common';
-import { Messages } from 'src/shared/constants/messages.enum';
 import { faker } from '@faker-js/faker/.';
 import { CreateDriverDto } from './dto/create-driver.dto';
 
@@ -62,10 +61,7 @@ describe('DriversService', () => {
       is_available: true,
     });
     expect(mockRepo.save).toHaveBeenCalledWith(mockDriver);
-    expect(result).toEqual({
-      message: Messages.DRIVER_CREATED_SUCCESSFULLY,
-      data: mockDriver,
-    });
+    expect(result).toEqual(mockDriver);
   });
 
   it('should return all drivers', async () => {

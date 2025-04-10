@@ -8,7 +8,6 @@ import { Repository } from 'typeorm';
 import { Driver } from './entities/driver.entity';
 import { CreateDriverDto } from './dto/create-driver.dto';
 import { Errors } from 'src/shared/constants/errors.enum';
-import { Messages } from 'src/shared/constants/messages.enum';
 
 @Injectable()
 export class DriversService {
@@ -30,11 +29,7 @@ export class DriversService {
       ...createDriverDto,
       is_available: true,
     });
-    const saved = await this.driverRepository.save(driver);
-    return {
-      message: Messages.DRIVER_CREATED_SUCCESSFULLY,
-      data: saved,
-    };
+    return this.driverRepository.save(driver);
   }
 
   findAll() {
