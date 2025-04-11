@@ -3,7 +3,7 @@ import { DriversService } from './drivers.service';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Driver } from './entities/driver.entity';
 import { NotFoundException } from '@nestjs/common';
-import { faker } from '@faker-js/faker/.';
+import { faker } from '@faker-js/faker';
 import { CreateDriverDto } from './dto/create-driver.dto';
 
 describe('DriversService', () => {

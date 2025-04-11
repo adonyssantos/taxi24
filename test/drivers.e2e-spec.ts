@@ -6,7 +6,7 @@ import * as request from 'supertest';
 import { AppModule } from '../src/app.module';
 import { Messages } from 'src/shared/constants/messages.enum';
 import { Driver } from 'src/drivers/entities/driver.entity';
-import { faker } from '@faker-js/faker/.';
+import { faker } from '@faker-js/faker';
 
 describe('DriversModule (e2e)', () => {
   let app: INestApplication;
