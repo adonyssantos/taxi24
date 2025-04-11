@@ -51,31 +51,23 @@ This will create the `.env` and `.env.e2e` files with the default values. You ca
 
 ### 4. Run locally with Docker
 
-This project run completely with Docker on both, developmend and production mode.
-
-**To execute on development mode (with hot reloading) run:**
+For development, this project runs completely on Docker. This means that you don't need to install PostgreSQL or any other dependencies on your machine.
 
 ```sh
-docker compose -f docker-compose.dev.yml up
+docker compose up
 ```
 
-**Or to execute on production mode (final bundle) execute:**
-
-```sh
-docker compose -f docker-compose.prod.yml up
-```
-
-Note: check that the ports `3000` and `5432` are not being used by other services. If they are, you can change the ports in the `docker-compose.dev.yml` and `docker-compose.production.yml` files.
+**Note:** Check that the ports `3000` and `5432` are not being used by other services. If they are, you can change the ports in the `docker-compose.yml` file.
 
 ### 5. Access the application
 
-After running the application, you can access it at `http://localhost:3000`.
+After running the api, you can access it at `http://localhost:3000`. 
 
-This project has swagger for API documentation. You can access it at `http://localhost:3000/api/docs`.
+Additionally, this project includes Swagger for API documentation, which is available at `http://localhost:3000/api/docs`.
 
 ### 6. Run the tests
 
-This project have unit tests for the services and end-to-end tests for the application. To run the tests, you can use the following commands:
+This project has unit tests for the services and end-to-end tests for the application. To run the tests, you can use the following commands:
 
 **To run the unit tests:**
 
