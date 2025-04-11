@@ -8,6 +8,7 @@ import { TripsModule } from './trips/trips.module';
 import { SharedModule } from './shared/shared.module';
 import { DatabaseModule } from './database/database.module';
 import { PassengerDriversModule } from './passenger-drivers/passenger-drivers.module';
+import { InvoicesModule } from './invoices/invoices.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { PassengerDriversModule } from './passenger-drivers/passenger-drivers.mo
     TripsModule,
     SharedModule,
     PassengerDriversModule,
+    InvoicesModule,
   ],
   controllers: [AppController],
   providers: [AppService],

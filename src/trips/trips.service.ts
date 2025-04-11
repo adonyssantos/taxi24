@@ -11,6 +11,8 @@ import { Passenger } from '../passengers/entities/passenger.entity';
 import { Driver } from '../drivers/entities/driver.entity';
 import { TripStatus } from 'src/shared/constants/trip-status.enum';
 import { Errors } from 'src/shared/constants/errors.enum';
+import { Invoice } from 'src/invoices/entities/invoice.entity';
+import { haversineDistance, metersToKm } from 'src/shared/utils/geo.util';
 
 @Injectable()
 export class TripsService {
@@ -23,6 +25,9 @@ export class TripsService {
 
     @InjectRepository(Driver)
     private readonly driverRepo: Repository<Driver>,
+
+    @InjectRepository(Invoice)
+    private readonly invoiceRepo: Repository<Invoice>,
   ) {}
 
   async create(dto: CreateTripDto): Promise<Trip> {
@@ -72,28 +77,60 @@ export class TripsService {
   }
 
   async complete(id: string): Promise<Trip> {
-    const trip = await this.tripRepo.findOne({ where: { id } });
-    if (!trip) throw new NotFoundException(Errors.TRIP_NOT_FOUND);
+    const trip = await this.tripRepo.findOne({
+      where: { id },
+      relations: ['driver', 'passenger'],
+    });
 
+    if (!trip) throw new NotFoundException(Errors.TRIP_NOT_FOUND);
     if (trip.status === TripStatus.COMPLETED) {
       throw new BadRequestException(Errors.TRIP_ALREADY_COMPLETED);
     }
-
-    // this will change the current position of the driver and passenger to the end position
-    trip.driver.current_lat = trip.end_lat;
-    trip.driver.current_lng = trip.end_lng;
-    trip.passenger.current_lat = trip.end_lat;
-    trip.passenger.current_lng = trip.end_lng;
 
     // change state to completed
     trip.status = TripStatus.COMPLETED;
     trip.completed_at = new Date();
 
-    // set the driver and passenger to available again
+    // this will change the current position of the driver and passenger to the end position
+    const { end_lat, end_lng } = trip;
+
+    trip.driver.current_lat = end_lat;
+    trip.driver.current_lng = end_lng;
     trip.driver.is_available = true;
 
-    await this.driverRepo.save(trip.driver);
+    trip.passenger.current_lat = end_lat;
+    trip.passenger.current_lng = end_lng;
 
-    return this.tripRepo.save(trip);
+    await this.driverRepo.save(trip.driver);
+    const updatedTrip = await this.tripRepo.save(trip);
+
+    // generate invoice
+    const flare = this.calculateFare(updatedTrip);
+    const invoice = this.invoiceRepo.create({
+      trip: updatedTrip,
+      amount: flare.value,
+      currency: flare.currency,
+      issued_at: new Date(),
+    });
+
+    await this.invoiceRepo.save(invoice);
+    return updatedTrip;
+  }
+
+  private calculateFare(trip: Trip) {
+    const BASE_FARE = 5;
+    const DISTANCE_MULTIPLIER = 0.5;
+    const distance = haversineDistance(
+      trip.start_lat,
+      trip.start_lng,
+      trip.end_lat,
+      trip.end_lng,
+    );
+    const distanceKm = metersToKm(distance);
+
+    return {
+      value: Math.round(BASE_FARE + distanceKm * DISTANCE_MULTIPLIER),
+      currency: 'USD',
+    };
   }
 }
