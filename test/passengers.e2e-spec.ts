@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication, ValidationPipe } from '@nestjs/common';
@@ -9,6 +10,7 @@ import { Messages } from 'src/shared/constants/messages.enum';
 
 describe('PassengersModule (e2e)', () => {
   let app: INestApplication;
+  let createdId: string;
 
   const mockPassenger: Partial<Passenger> = {
     name: faker.person.fullName(),
@@ -45,6 +47,8 @@ describe('PassengersModule (e2e)', () => {
       .post('/passengers')
       .send(mockPassenger);
 
+    createdId = res.body.data.id;
+
     expect(res.status).toBe(201);
     expect(res.body).toHaveProperty(
       'message',
@@ -67,5 +71,19 @@ describe('PassengersModule (e2e)', () => {
     if (res.body.data.length > 0) {
       expect(res.body.data[0]).toHaveProperty('name');
     }
+  });
+
+  it('should return a passenger by ID', async () => {
+    const res = await request(app.getHttpServer()).get(
+      `/passengers/${createdId}`,
+    );
+
+    expect(res.status).toBe(200);
+    expect(res.body).toHaveProperty(
+      'message',
+      Messages.PASSENGER_RETRIEVED_SUCCESSFULLY,
+    );
+    expect(res.body).toHaveProperty('data');
+    expect(res.body.data).toHaveProperty('id', createdId);
   });
 });

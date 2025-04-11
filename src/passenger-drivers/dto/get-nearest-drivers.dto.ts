@@ -23,12 +23,12 @@ export class GetNearestDriversDto {
   current_lng: number;
 
   @ApiProperty({
-    example: Mock.PASSENGER_DESTINATION_RADIUS,
+    example: Mock.PASSENGER_DRIVERS_LIMIT,
     description: 'Limit of drivers to be returned',
     default: 3,
     required: false,
   })
   @IsNumber()
   @Type(() => Number)
-  radius?: number;
+  limit?: number;
 }

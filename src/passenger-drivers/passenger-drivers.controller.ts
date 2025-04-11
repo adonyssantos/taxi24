@@ -20,7 +20,7 @@ export class PassengerDriversController {
     const nearbyDrivers = await this.passengerDriversService.findNearby(
       dto.current_lat,
       dto.current_lng,
-      dto.radius,
+      dto.limit,
     );
     return response(Messages.DRIVERS_RETRIEVED_SUCCESSFULLY, nearbyDrivers);
   }

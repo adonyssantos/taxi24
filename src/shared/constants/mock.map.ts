@@ -13,7 +13,8 @@ export const Mock = Object.freeze({
     min: -69.95,
     max: -69.85,
   }),
-  PASSENGER_DESTINATION_RADIUS: faker.number.int({ min: 1, max: 10 }),
+  PASSENGER_DESTINATION_RADIUS: 3,
+  PASSENGER_DRIVERS_LIMIT: 3,
 
   // Driver
   DRIVER_ID: faker.string.uuid(),
