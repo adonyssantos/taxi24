@@ -5,6 +5,7 @@ import { Driver } from './entities/driver.entity';
 import { NotFoundException } from '@nestjs/common';
 import { faker } from '@faker-js/faker';
 import { CreateDriverDto } from './dto/create-driver.dto';
+import { createMockRepository } from 'src/shared/utils/create-mock-repository.util';
 
 describe('DriversService', () => {
   let service: DriversService;
@@ -18,13 +19,7 @@ describe('DriversService', () => {
     is_available: true,
   };
 
-  const mockRepo = {
-    create: jest.fn().mockReturnValue(mockDriver),
-    save: jest.fn().mockResolvedValue(mockDriver),
-    find: jest.fn().mockResolvedValue([mockDriver]),
-    findOneBy: jest.fn().mockResolvedValue(mockDriver),
-    remove: jest.fn().mockResolvedValue(undefined),
-  };
+  const mockRepository = createMockRepository<Driver>(mockDriver);
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -32,7 +27,7 @@ describe('DriversService', () => {
         DriversService,
         {
           provide: getRepositoryToken(Driver),
-          useValue: mockRepo,
+          useValue: mockRepository,
         },
       ],
     }).compile();
@@ -53,31 +48,33 @@ describe('DriversService', () => {
       current_lng: mockDriver.current_lng!,
     };
 
-    mockRepo.findOneBy.mockResolvedValueOnce(null);
+    mockRepository.findOneBy.mockResolvedValueOnce(null);
     const result = await service.create(dto);
 
-    expect(mockRepo.create).toHaveBeenCalledWith({
+    expect(mockRepository.create).toHaveBeenCalledWith({
       ...dto,
       is_available: true,
     });
-    expect(mockRepo.save).toHaveBeenCalledWith(mockDriver);
+    expect(mockRepository.save).toHaveBeenCalledWith(mockDriver);
     expect(result).toEqual(mockDriver);
   });
 
   it('should return all drivers', async () => {
     const result = await service.findAll();
-    expect(mockRepo.find).toHaveBeenCalled();
+    expect(mockRepository.find).toHaveBeenCalled();
     expect(result).toEqual([mockDriver]);
   });
 
   it('should return one driver', async () => {
     const result = await service.findOne(mockDriver.id!);
-    expect(mockRepo.findOneBy).toHaveBeenCalledWith({ id: mockDriver.id });
+    expect(mockRepository.findOneBy).toHaveBeenCalledWith({
+      id: mockDriver.id,
+    });
     expect(result).toEqual(mockDriver);
   });
 
   it('should throw if driver not found', async () => {
-    mockRepo.findOneBy.mockResolvedValueOnce(null);
+    mockRepository.findOneBy.mockResolvedValueOnce(null);
 
     await expect(service.findOne('fake-id')).rejects.toThrow(NotFoundException);
   });

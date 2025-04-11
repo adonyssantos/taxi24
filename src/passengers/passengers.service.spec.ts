@@ -4,17 +4,10 @@ import { getRepositoryToken } from '@nestjs/typeorm';
 import { Passenger } from './entities/passenger.entity';
 import { CreatePassengerDto } from './dto/create-passenger.dto';
 import { faker } from '@faker-js/faker';
-
-class MockPassengerRepository {
-  create = jest.fn();
-  save = jest.fn();
-  find = jest.fn();
-  findOneBy = jest.fn();
-}
+import { createMockRepository } from 'src/shared/utils/create-mock-repository.util';
 
 describe('PassengersService', () => {
   let service: PassengersService;
-  let repository: MockPassengerRepository;
 
   const mockPassenger: Partial<Passenger> = {
     name: faker.person.fullName(),
@@ -24,26 +17,27 @@ describe('PassengersService', () => {
     current_lng: faker.location.longitude({ min: -69.95, max: -69.85 }),
   };
 
+  const mockRepository = createMockRepository<Passenger>(mockPassenger);
+
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         PassengersService,
         {
           provide: getRepositoryToken(Passenger),
-          useClass: MockPassengerRepository,
+          useValue: mockRepository,
         },
       ],
     }).compile();
 
     service = module.get<PassengersService>(PassengersService);
-    repository = module.get(getRepositoryToken(Passenger));
   });
 
   it('should be defined', () => {
     expect(service).toBeDefined();
   });
 
-  it('should create a passenger and return success message', async () => {
+  it('should create a passenger', async () => {
     const dto: CreatePassengerDto = {
       name: mockPassenger.name!,
       email: mockPassenger.email!,
@@ -52,31 +46,29 @@ describe('PassengersService', () => {
       current_lng: mockPassenger.current_lng!,
     };
 
-    repository.create.mockReturnValue(mockPassenger);
-    repository.save.mockResolvedValue(mockPassenger);
-
+    mockRepository.findOneBy.mockResolvedValueOnce(null);
     const result = await service.create(dto);
 
-    expect(repository.create).toHaveBeenCalledWith(dto);
-    expect(repository.save).toHaveBeenCalledWith(mockPassenger);
+    expect(mockRepository.create).toHaveBeenCalledWith(dto);
+    expect(mockRepository.save).toHaveBeenCalledWith(mockPassenger);
     expect(result).toEqual(mockPassenger);
   });
 
   it('should return all passengers', async () => {
-    repository.find.mockResolvedValue([mockPassenger]);
+    mockRepository.find.mockResolvedValue([mockPassenger]);
 
     const result = await service.findAll();
 
-    expect(repository.find).toHaveBeenCalled();
+    expect(mockRepository.find).toHaveBeenCalled();
     expect(result).toEqual([mockPassenger]);
   });
 
   it('should return a passenger by ID', async () => {
-    repository.findOneBy.mockResolvedValue(mockPassenger);
+    mockRepository.findOneBy.mockResolvedValue(mockPassenger);
 
     const result = await service.findOne('uuid-123');
 
-    expect(repository.findOneBy).toHaveBeenCalledWith({ id: 'uuid-123' });
+    expect(mockRepository.findOneBy).toHaveBeenCalledWith({ id: 'uuid-123' });
     expect(result).toEqual(mockPassenger);
   });
 });
