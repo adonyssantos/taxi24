@@ -40,9 +40,9 @@ describe('DriversModule (e2e)', () => {
   it('should create a driver', async () => {
     const res = await request(app.getHttpServer())
       .post('/drivers')
-      .send(mockDriver)
-      .expect(201);
+      .send(mockDriver);
 
+    expect(res.status).toBe(201);
     expect(res.body).toHaveProperty(
       'message',
       Messages.DRIVER_CREATED_SUCCESSFULLY,
@@ -53,8 +53,9 @@ describe('DriversModule (e2e)', () => {
   });
 
   it('should return all drivers', async () => {
-    const res = await request(app.getHttpServer()).get('/drivers').expect(200);
+    const res = await request(app.getHttpServer()).get('/drivers');
 
+    expect(res.status).toBe(200);
     expect(res.body).toHaveProperty(
       'message',
       Messages.DRIVERS_RETRIEVED_SUCCESSFULLY,
@@ -68,10 +69,9 @@ describe('DriversModule (e2e)', () => {
 
   it('should return one driver by ID', async () => {
     if (!createdId) throw new Error('createdId is undefined');
-    const res = await request(app.getHttpServer())
-      .get(`/drivers/${createdId}`)
-      .expect(200);
+    const res = await request(app.getHttpServer()).get(`/drivers/${createdId}`);
 
+    expect(res.status).toBe(200);
     expect(res.body).toHaveProperty('message', Messages.DRIVER_FOUND_SUCCESS);
     expect(res.body).toHaveProperty('data');
     expect(res.body.data.id).toBe(createdId);
