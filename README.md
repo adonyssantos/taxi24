@@ -1,4 +1,14 @@
-# Taxi24
+# 🚖 Taxi24 API
+
+Welcome to the Taxi24 API, a backend service designed to manage a simplified ride-hailing platform. This project was developed as part of a technical challenge and includes:
+
+- Full support for managing drivers, passengers, and trips
+- Geolocation logic to find the nearest drivers
+- Automatic invoice generation upon trip completion
+- Complete unit and end-to-end tests
+- Dockerized environment ready for local development
+
+Clear instructions are provided to help you get started quickly, whether you're running the app locally or inside containers.
 
 ## Main technologies
 
