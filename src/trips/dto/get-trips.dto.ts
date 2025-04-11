@@ -1,6 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsOptional, IsIn } from 'class-validator';
 import { Mock } from 'src/shared/constants/mock.map';
+import { TripStatus } from 'src/shared/constants/trip-status.enum';
 
 export class GetTripsDto {
   @ApiProperty({
@@ -8,8 +9,8 @@ export class GetTripsDto {
     required: false,
   })
   @IsOptional()
-  @IsIn(['active', 'complete'], {
-    message: 'Status must be either "active" or "complete"',
+  @IsIn([TripStatus.ACTIVE, TripStatus.COMPLETED], {
+    message: `Status must be either "${TripStatus.ACTIVE}" or "${TripStatus.COMPLETED}"`,
   })
   status?: string;
 }
