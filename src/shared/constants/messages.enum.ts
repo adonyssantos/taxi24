@@ -13,4 +13,7 @@ export enum Messages {
   TRIP_CREATED_SUCCESSFULLY = 'Trip created successfully',
   TRIP_FOUND_SUCCESS = 'Trip found successfully',
   TRIP_COMPLETED_SUCCESS = 'Trip completed successfully',
+
+  // Invoices
+  INVOICES_RETRIEVED_SUCCESSFULLY = 'Invoices retrieved successfully',
 }
