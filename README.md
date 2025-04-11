@@ -62,7 +62,7 @@ docker compose -f docker-compose.dev.yml up
 **Or to execute on production mode (final bundle) execute:**
 
 ```sh
-docker compose -f docker-compose.production.yml up
+docker compose -f docker-compose.prod.yml up
 ```
 
 Note: check that the ports `3000` and `5432` are not being used by other services. If they are, you can change the ports in the `docker-compose.dev.yml` and `docker-compose.production.yml` files.
@@ -89,4 +89,4 @@ npm run test
 npm run test:e2e
 ```
 
-**Note:** To run the end-to-end tests, you need to have the application running in development mode. You will do this in the 4th step.
+**Note:** To run the end-to-end tests, you need to have the application running in development mode. This is what you did in the 4th step.
