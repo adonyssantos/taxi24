@@ -4,6 +4,7 @@ import { getRepositoryToken } from '@nestjs/typeorm';
 import { Trip } from './entities/trip.entity';
 import { Passenger } from '../passengers/entities/passenger.entity';
 import { Driver } from '../drivers/entities/driver.entity';
+import { Invoice } from '../invoices/entities/invoice.entity';
 import { createMockRepository } from 'src/shared/utils/create-mock-repository.util';
 import { faker } from '@faker-js/faker';
 import { TripStatus } from 'src/shared/constants/trip-status.enum';
@@ -15,6 +16,7 @@ describe('TripsService', () => {
   let tripRepo: ReturnType<typeof createMockRepository<Trip>>;
   let passengerRepo: ReturnType<typeof createMockRepository<Passenger>>;
   let driverRepo: ReturnType<typeof createMockRepository<Driver>>;
+  let invoiceRepo: ReturnType<typeof createMockRepository<Invoice>>;
 
   const mockTrip: Partial<Trip> = {
     id: faker.string.uuid(),
@@ -41,6 +43,7 @@ describe('TripsService', () => {
     tripRepo = createMockRepository<Trip>(mockTrip);
     passengerRepo = createMockRepository<Passenger>(mockPassenger);
     driverRepo = createMockRepository<Driver>(mockDriver);
+    invoiceRepo = createMockRepository<Invoice>({});
 
     const module: TestingModule = await Test.createTestingModule({
       providers: [
@@ -48,6 +51,7 @@ describe('TripsService', () => {
         { provide: getRepositoryToken(Trip), useValue: tripRepo },
         { provide: getRepositoryToken(Passenger), useValue: passengerRepo },
         { provide: getRepositoryToken(Driver), useValue: driverRepo },
+        { provide: getRepositoryToken(Invoice), useValue: invoiceRepo },
       ],
     }).compile();
 
@@ -63,8 +67,8 @@ describe('TripsService', () => {
         end_lng: -69.91,
       };
 
-      passengerRepo.findOne.mockResolvedValueOnce(mockPassenger);
-      driverRepo.findOne.mockResolvedValueOnce(mockDriver);
+      passengerRepo.findOneBy.mockResolvedValueOnce(mockPassenger);
+      driverRepo.findOneBy.mockResolvedValueOnce(mockDriver);
       tripRepo.findOne.mockResolvedValueOnce(null);
       tripRepo.create.mockReturnValue(mockTrip);
       tripRepo.save.mockResolvedValueOnce(mockTrip);
@@ -78,9 +82,7 @@ describe('TripsService', () => {
     });
 
     it('should throw if passenger is not found', async () => {
-      passengerRepo.findOne.mockResolvedValueOnce(null);
-      driverRepo.findOneBy.mockResolvedValueOnce(null); // <- AÑADE ESTO
-
+      passengerRepo.findOneBy.mockResolvedValueOnce(null);
       const dto: CreateTripDto = {
         passenger_id: 'missing-passenger',
         driver_id: mockDriver.id!,
@@ -92,8 +94,8 @@ describe('TripsService', () => {
     });
 
     it('should throw if driver is unavailable', async () => {
-      passengerRepo.findOne.mockResolvedValueOnce(mockPassenger);
-      driverRepo.findOne.mockResolvedValueOnce({
+      passengerRepo.findOneBy.mockResolvedValueOnce(mockPassenger);
+      driverRepo.findOneBy.mockResolvedValueOnce({
         ...mockDriver,
         is_available: false,
       });
@@ -126,6 +128,8 @@ describe('TripsService', () => {
         ...trip,
         status: TripStatus.COMPLETED,
       });
+      invoiceRepo.create.mockReturnValue({});
+      invoiceRepo.save.mockResolvedValue({});
 
       const result = await service.complete(tripId);
       expect(result.status).toBe(TripStatus.COMPLETED);
@@ -133,6 +137,8 @@ describe('TripsService', () => {
       expect(driverRepo.save).toHaveBeenCalledWith(
         expect.objectContaining({ is_available: true }),
       );
+      expect(invoiceRepo.create).toHaveBeenCalled();
+      expect(invoiceRepo.save).toHaveBeenCalled();
     });
 
     it('should throw if trip does not exist', async () => {
